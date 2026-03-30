@@ -1,0 +1,85 @@
+---
+title: "RchivalTag Tutorial | Part 7 - Simulate Depth Time Series Data"
+description: |
+  In this tutorial we will learn how to simulate depth time series data from a template data set.
+author:
+  - name: Robert K. Bauer
+    url: http://www2.hawaii.edu/~rkbauer
+    affiliation: Hawai'i Institute of Marine Biology <br> University of Hawai'i at Mānoa
+    affiliation_url: https://scholar.google.com/citations?hl=en&user=J-0_tdbR2tgC
+    orcid_id: 0000-0003-4224-8023
+date: 04-28-2021
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    self_contained: false
+# (additional metadata e.g. description and date, excluded for brevity)
+categories:
+  - RchivalTag
+  - time-series
+  - DepthTS
+  - simulate
+  - dygraphs
+creative_commons: CC BY
+---
+
+# Getting started | Requirements
+
+To run this tutorial we will need RchivalTag version >= 0.1.5 and oceanmap version >= 0.13. You can find the newest versions of both packages on [github](https://github.com/rkbauer/)
+
+```{r}
+## install or load package
+# install.packages("RchivalTag") # from CRAN
+# library(xfun)
+# install_github("rkbauer/oceanmap") # newest version from github
+# install_github("rkbauer/RchivalTag") # newest version from github
+library("RchivalTag")
+
+## Package overview and version:
+?RchivalTag 
+help(package="RchivalTag") ## list of functions
+```
+
+```{r}
+ts_file <- system.file("example_files/104659-Series.csv",package="RchivalTag")
+ts_df <- read_TS(ts_file)
+ts_df$Serial <- ts_df$DeployID
+ts_df$Lon <- 5; ts_df$Lat <- 43
+dy_DepthTS(ts_df)
+```
+
+We can use the depth time series illustrated above as a template data set to simulate new depth time series data via the simulate_DepthTS function:
+
+```{r}
+ts_df_sim <- simulate_DepthTS(ts_df) # simulate data
+
+dy_DepthTS(ts_df_sim) # plot simulated data
+```
+
+
+
+Note that the simulate_DepthTS function can insert transmission gaps (by default a transmission rate of 90% will be modeled) via the gaps and trate-arguments and introduces further variation in the Depth records (i.e. template depth records of >= 300 will be replaced by values between 100 and 700 m). Note that the day-night shadings are not added to the plot since geolocation estimates (Lon, Lat) are missing in the simulated data set, and thus the related daytime information.
+
+```{r}
+ts_df_sim2 <- simulate_DepthTS(ts_df, trate = 70, ref_Depth_lim = 100) # simulate data
+
+dy_DepthTS(ts_df_sim2) # plot simulated data
+```
+
+
+```{r, fig.width=12.5,fig.height=4, collapse=TRUE}
+library(dplyr)
+meta <- rbind(ts_df[,names(ts_df_sim)],ts_df_sim,ts_df_sim2) %>%
+        group_by(DeployID, Serial, Ptt) %>%
+        summarise(dep.date=min(date),pop.date=max(date)) %>%
+        as.data.frame()
+
+ts_list <- list(ts_df, ts_df_sim, ts_df_sim2)
+names(ts_list) <- sapply(ts_list, function(x) x[["Serial"]][1])
+
+# plot data coverage
+plot_data_coverage(x = ts_list,type="ts", meta = meta)
+
+```
+

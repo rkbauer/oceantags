@@ -1,0 +1,126 @@
+---
+title: "RchivalTag Tutorial | Part 5 - Visualizing data in local time/other time zones"
+description: |
+  In part 2 of the RchivalTag tutorial series, we learned already different ways to visualize depth time series data. In this tutorial, we will address how to illustrate the data in local time (other time zones).
+author:
+  - name: Robert K. Bauer
+    url: http://www2.hawaii.edu/~rkbauer
+    affiliation: Hawai'i Institute of Marine Biology <br> University of Hawai'i at Mānoa
+    affiliation_url: https://scholar.google.com/citations?hl=en&user=J-0_tdbR2tgC
+    orcid_id: 0000-0003-4224-8023
+date: 02-18-2021
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    self_contained: false
+# (additional metadata e.g. description and date, excluded for brevity)
+categories:
+  - RchivalTag
+  - local-time
+  - timezone
+  - UTC
+  - time-series
+  - dygraphs
+creative_commons: CC BY
+---
+
+# Getting started | Requirements
+
+To run this tutorial we will need RchivalTag version >= 0.1.5 and oceanmap version >= 0.13. You can find the newest versions of both packages on [github](https://github.com/rkbauer/)
+
+```{r}
+## install or load package
+# install.packages("RchivalTag") # from CRAN
+# library(xfun)
+# install_github("rkbauer/oceanmap") # newest version from github
+# install_github("rkbauer/RchivalTag") # newest version from github
+library("RchivalTag")
+
+## Package overview and version:
+?RchivalTag 
+help(package="RchivalTag") ## list of functions
+```
+
+# Recap: time sieres data plotting functions in RchivalTag
+-  `ggboxplot_DepthTS_by_hour`
+-  `plot_DepthTS`
+-  `plot_DepthTempTS`
+-  `plot_DepthTempTS_resampled`
+-  `plot_DepthTempTS_resampled_PDT`
+-  `dy_DepthTS`
+
+# Visualizing time series data in local time
+
+Let's assume the fish was tagged in Hawaii. The standard time zone of all RchivalTag figures and calculations is UTC (Universal Time Coordinated) which is 10 hours ahead of the local time zone of our tag (Hawaii Standard Time, HST). To facilitate the interpretation of the results, we might like to visualize the results in the local time. Fortunately, ggboxplot_DepthTS_by_hour and the other time series plotting functions of RchivalTag include an argument to define and convert the UTC time of daytime periods and tagging data to your preferred time zone for visualization:
+
+```{r}
+library(dplyr)
+
+ts_file <- system.file("example_files/104659-Series.csv",package="RchivalTag")
+ts_df <- read_TS(ts_file)
+ts_df <- ts_df %>% mutate(Lon = 55.5828,
+                          Lat = 19.8968)
+
+ts_df <- classify_DayTime(ts_df)
+ts_df$Serial <- ts_df$DeployID 
+
+```
+
+
+```{r, collapse=TRUE}
+## illustrate DepthTS and daytime periods in HST
+print(head(ts_df))
+ggboxplot_DepthTS_by_hour(ts_df,ylim=c(0,100),tz = "HST") 
+```
+
+Let's add the actual depth records on top of the boxplot (only meaningful in case of few amounts of data, low resolution DepthTS):
+
+```{r, collapse=TRUE}
+ggboxplot_DepthTS_by_hour(ts_df,tz = "HST", jitter = T, opacity = 0.1)
+```
+
+```{r, collapse=TRUE}
+plot_DepthTS(ts_df,xlim = unique(ts_df$date)[2:3],tz = "HST",plot_DayTimePeriods=T)
+```
+
+```{r, collapse=TRUE}
+dy_DepthTS(ts_df,xlim = unique(ts_df$date)[2:3],tz = "HST")
+```
+
+
+# How to find your local time keys
+
+The OlsonNames-function includes all available time zones in R, some of them are abbreviated, others not. The table below shows the time difference from UTC to the local time of each time zone in hours:
+
+```{r}
+library(DT)
+tzs <- OlsonNames(tzdir = NULL) # list of available time zones
+SysTime <- Sys.time()
+UTCTime <- SysTime %>% lubridate::with_tz(tz = "UTC")
+df <- data.frame(timezone=tzs, SysTime=as.character(SysTime), UTCTime=UTCTime, stringsAsFactors = F)
+
+tzTime <- apply(df,1, function(x) as.character(lubridate::with_tz(SysTime,tzone=x[1])))
+df$tzTime <- lubridate::ymd_hms(tzTime, tz = "UTC")
+df$time_diff <- round(as.numeric(df$tzTime-df$UTCTime)/(60*60),2)
+
+df %>% mutate(UTCTime=as.character(UTCTime),
+              tzTime=as.character(tzTime)) %>%
+  # select(timezone,time_diff) %>%
+  rename("UTC vs tzTime (h)"=time_diff) %>% 
+    datatable(
+      extensions = "Buttons",
+      options = list(
+        dom = 'Bfrtip',
+        buttons = c('excel', "csv")))
+
+```
+
+Let's say we look for the time zone of Tonga, a beautiful Polynesian kingdom in the Pacific:
+
+```{r}
+tzs[grep("onga",tzs)]
+dy_DepthTS(ts_df,xlim = unique(ts_df$date)[2:3],tz = "Pacific/Tongatapu")
+
+```
+

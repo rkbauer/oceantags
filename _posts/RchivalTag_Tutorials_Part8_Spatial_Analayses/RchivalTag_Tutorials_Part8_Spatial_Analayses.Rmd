@@ -1,0 +1,149 @@
+---
+title: "RchivalTag Tutorial | Part 8 - Spatial Analyses"
+description: |
+  In this tutorial we will learn how to run some basic spatial analyses based on maximum likelihood tracks, probability surfaces and simulated fishing effort data (kernel densities).
+author:
+  - name: Robert K. Bauer
+    url: http://www2.hawaii.edu/~rkbauer
+    affiliation: Hawai'i Institute of Marine Biology <br> University of Hawai'i at Mānoa
+    affiliation_url: https://scholar.google.com/citations?hl=en&user=J-0_tdbR2tgC
+    orcid_id: 0000-0003-4224-8023
+date: 06-01-2021
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    self_contained: false
+# (additional metadata e.g. description and date, excluded for brevity)
+categories:
+  - RchivalTag
+  - kernel
+  - raster
+  - polygons
+  - tracks
+  - simulate
+  - ggplot
+  - fishing-effort
+creative_commons: CC BY
+---
+
+# Getting started | Requirements
+
+To run this tutorial we will need RchivalTag version >= 0.1.5 and oceanmap version >= 0.13. You can find the newest versions of both packages on [github](https://github.com/rkbauer/)
+
+```{r}
+## install or load package
+# install.packages("RchivalTag") # from CRAN
+# library(xfun)
+# install_github("rkbauer/oceanmap") # newest version from github
+# install_github("rkbauer/RchivalTag") # newest version from github
+library("RchivalTag")
+
+## Package overview and version:
+?RchivalTag 
+help(package="RchivalTag") ## list of functions
+
+library(oceanmap)
+```
+
+# GPE3 model outputs - Probability surfaces vs Maximum likelihood tracks
+
+In the RchivalTag tutorial 4 we have seen how to visualize the different GPE3 model outputs (i.e. Probability surfaces vs Maximum likelihood tracks). As you remember we can read and plot these outputs via the ggplot_geopos-function (or via the get_geopos and the leaflet_geopos-functions).
+
+```{r}
+pos_file <- system.file("example_files/15P1019-104659-1-GPE3.csv",package="RchivalTag")
+xlim <- c(-6.0, 16.5)
+ylim <- c(34.0, 44.5)
+ggobj <- ggplotmap(lon = xlim, lat = ylim)
+ggobj <- ggplot_geopos(pos_file,ggobj = ggobj)
+ggobj
+```
+
+```{r}
+kmz_file <- system.file("example_files/15P0986-15P0986-2-GPE3.kmz",package="RchivalTag")
+ggobj <- ggplotmap(lon = xlim, lat = ylim)
+ggobj <- ggplot_geopos(kmz_file,ggobj = ggobj,prob_lim = 0.95)
+ggobj
+```
+
+# Simulated fishing effort data
+
+Many marine biologging studies seek to understand the vulnerability of a target species, i.e. vs. different kinds of fishing activities. Assume we are interested in the overlap of areas of high fishing effort and the tracks of our tagged animal. To study such a scenario, I have simulated some fishing effort data, with each position representing a fishing activity. For simplicity, we will not further address any simulated fishing effort that actually falls on land.
+
+```{r}
+catch_lon <- rnorm(n = 100, mean = 5.5,sd=1)
+catch_lat <- rnorm(n = 100, mean = 40.5, sd=2)
+plotmap(xlim=xlim, ylim=ylim)
+points(catch_lon,catch_lat,pch=19,col="darkblue")
+plotmap(xlim=xlim, ylim=ylim,add=T) 
+```
+## Probability surfaces
+
+We can generate kernel densities from this data and transform those in probability surfaces:
+
+```{r, preview=TRUE, include=TRUE, results="hide"}
+library(MASS)
+catch_kernel <- kde2d(x = catch_lon, y = catch_lat, h = 2, n = 500,lims = c(xlim,ylim))
+mat <- catch_kernel
+mat$z <- 100-mat$z*100/max(mat$z,na.rm=T)
+catch_prob <- raster(mat)
+v(catch_prob,cbpos="r", pal="jetrev",v_contour=T, cb.xlab="Probability Surface (%)")
+```
+
+## Contour lines
+
+The code below shows how to extract a specific contour line (probability surface) from this data.
+
+```{r, include=TRUE, results="hide"}
+library(maptools)
+prob_lim <- 50
+cl <- try(rasterToContour(catch_prob, levels = prob_lim), silent = T)
+p <- maptools::SpatialLines2PolySet(cl)
+spolys <- maptools::PolySet2SpatialPolygons(p,close_polys = T)
+spolys <- rgeos:::gBuffer(spolys,byid = T,width=0)
+
+plotmap(xlim = xlim, ylim=ylim)
+fillcol <- rgb(173, 216, 230, max = 255, alpha = 125, names = "blue50")
+plot(spolys,add=T,col=fillcol,lty="dashed")
+
+```
+
+# Overlap with Maximum likelihood tracks
+
+This contour, extracted as a SpatialPolygons-object can be used to calculate the overlap of our tracks with the fishing effort data. To do so, we calculate the overlap based on the percentage of maximum likelihood positions that are located inside the contourline of the fishing effort probability surface:
+
+```{r, include=TRUE}
+plotmap(xlim = xlim, ylim=ylim)
+fillcol <- rgb(173, 216, 230, max = 255, alpha = 125, names = "blue50")
+plot(spolys,add=T,col=fillcol,lty="dashed")
+pos_file <- system.file("example_files/15P1019-104659-1-GPE3.csv",package="RchivalTag")
+mlt <- get_geopos(pos_file)
+points(mlt$Lon,mlt$Lat,pch=19)
+
+smlt <- SpatialPoints(mlt[,c("Lon","Lat")])
+sp::proj4string(smlt) <- sp::proj4string(spolys)
+overlapping_pos <- over(smlt,spolys) # 1 indicating overlap, NA no overlap
+
+# percentage of maximum likelihood positions located inside the fishing effort probability surface
+overlap_perc <- round(100*length(which(!is.na(overlapping_pos)))/nrow(mlt),1)
+overlap_perc
+```
+
+Or we can calculate the overlap based on the GPE3 probability surfaces:
+
+```{r, include=TRUE}
+plotmap(xlim = xlim, ylim=ylim)
+fillcol <- rgb(173, 216, 230, max = 255, alpha = 125, names = "blue50")
+plot(spolys,add=T,col=fillcol,lty="dashed")
+
+# load example track as SpatialPolygonsDataFrame
+pos <- get_geopos(kmz_file, prob_lim = 0.95)
+tracks <- try(unionSpatialPolygons(pos,IDs=rep(1,length(pos))),silent=T) # merge track polygons
+trackcol <- rgb(144, 238, 144, max = 255, alpha = 125, names = "lightgreen")
+plot(tracks,add=T,col=trackcol)
+
+sharedpol <- intersect(tracks,spolys)
+TrackArea <-  raster::area(tracks)
+SharedArea_perc <- round(100*raster::area(sharedpol)/TrackArea,2)
+SharedArea_perc
+```

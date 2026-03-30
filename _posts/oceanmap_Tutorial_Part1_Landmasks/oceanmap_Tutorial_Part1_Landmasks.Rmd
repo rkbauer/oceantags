@@ -1,0 +1,278 @@
+---
+title: "oceanmap Tutorial | Part 1 - Plotting landmasks"
+description: |
+  In this first oceanmap tutorial we will learn different ways to plot or add landmasks to existing figures. 
+author:
+  - name: Robert K. Bauer
+    url: http://www2.hawaii.edu/~rkbauer
+    affiliation: Hawai'i Institute of Marine Biology <br> University of Hawai'i at Mānoa
+    affiliation_url: https://scholar.google.com/citations?hl=en&user=J-0_tdbR2tgC
+    orcid_id: 0000-0003-4224-8023
+date: 08-16-2020
+bibliography: library.bib
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    self_contained: false
+# (additional metadata e.g. description and date, excluded for brevity)
+categories:
+  - oceanmap
+  - ggplot
+  - plotly
+  - raster
+---
+
+# Getting started | Requirements
+To run this tutorial we will need oceanmap version >= 0.13. You can find the newest version on [github](https://github.com/rkbauer/R_Package_oceanmap)
+
+```{r}
+## install or load package
+# install.packages("oceanmap") # from CRAN
+# library(xfun)
+# install_github("rkbauer/oceanmap") # newest version from github
+library("oceanmap")
+
+## Package overview and version:
+?oceanmap 
+help(package="oceanmap") ## list of functions
+```
+
+# Introduction
+Visualizing data is a crucial step in analyzing and exploring data. During the last
+two decades the statistical programming language R has become a major tool for data
+analyses and visualization across different fields of science. However, creating figures
+ready for scientific publication can be a tricky and time consuming task.
+The oceanmap package provides some helpful functions to facilitate and optimize the
+visualization of geographic and oceanographic data, such as satellite and bathymetric
+data sets. Its major functions are
+
+*   plotmap(), ggplotmap() and gglotmaply() to plot land masks
+*   set.colorbar(), to define the colorbar (position, ticks, colormap)
+*   v(), an optimized tool for creating image or contour plots from different data formats (matrix, array, raster, netcdf, binary)
+*   figure(), to facilitate resizing and saving of figures in diverse formats (jpeg, png, eps, pdf and eps)
+
+These functions were written in a way that they do not require a large amount of their numerous arguments to be specified but still return nice plots. Each of these functions
+will be subsequently discussed.
+A closely related problem represents the extraction of spatial data at defined positions/areas. Some examples on this will be discussed in an extra section.
+
+# The plotmap-function
+Often it is required to add a land mask as geographical reference to an image- or scatter-
+plot. To add a landmask it is required to provide information about the region extent.
+As for the entire oceanmap-package, the idea of the plotmap-function is to reduce the
+user effort when creating figures. To allow a high level of user flexibility plotmap can
+produce a may by 5 different ways. By providing the required region extent as:
+
+1. geographical coordinates (longitude and latitude),
+2. a raster-object
+3. an extent-object
+4. a region-keyword
+5. or add a land mask to an existing plot
+
+Many additional arguments can passed by the user. The idea of a region-keyword
+(option 4) is to use a short character string instead of requiring axes limits. This keyword
+feature is also implemented in the v-function and permits here the rapid visualization
+of subregions of interest (e.g. from a raster object). Region keywords can be set up by
+the add.region-function. The latter function is interactive and also defines the default
+colorbar placement that is further used by the v-function.
+
+## 5 different ways to produce a map with plotmap() - examples
+
+
+## Example 1: plot landmask of the Mediterranean Sea
+### a) by using longitude and latitude coordinates:
+
+```{r plotting Mediterranean landmask}
+lon <- c(-6, 37)
+lat <- c(30, 46)
+plotmap(lon=lon, lat=lat, main="Mediterranean Sea")
+plotmap(xlim=lon, ylim=lat, main="Mediterranean Sea")
+```
+
+
+### b) plot landmask of the Mediterranean Sea by using an extent-object
+```{r plotting Mediterranean landmask via extent object}
+library('raster')
+ext <- extent(lon, lat)
+plotmap(ext, main="Mediterranean Sea") # extent-object
+```
+
+### c) plot landmask of the Mediterranean Sea by using a raster-object:
+```{r plotting Mediterranean landmask via raster object}
+r <- raster(ext)
+plotmap(r, main="Mediterranean Sea") # raster-object
+```
+
+### d) plot landmask of the Mediterranean Sea by using a region label:
+```{r plotting Mediterranean landmask via region label}
+# run regions() to check pre-installed region labels
+# (we will introduce later how to define new region definitions)
+plotmap('med4', main="Mediterranean Sea") # region label for the Mediterranean
+```
+
+
+### e) add landmask to an existing plot:
+```{r adding Mediterranean landmask to exsiting plot}
+plot(3.7008, 43.4079, xlim=lon, ylim=lat)
+plotmap(add=T)
+points(3.7008, 43.4079, pch=19)
+```
+
+## Example 2: subplots and some additional arguments of plotmap()
+```{r, layout="l-body-outset", layout="l-body-outset",fig.height=8}
+par(mfrow=c(2, 1))
+plotmap('medw4', main="Western Mediterranean Sea",col.bg="darkblue")
+plotmap('medw4', main="Western Mediterranean Sea", bwd=3, border='grey', 
+        grid=FALSE)
+```
+
+
+# Saving plots with figure()
+
+oceanmap inlcudes its own function to save figures in different file formats:
+
+```{saving plots, r}
+do.save <- FALSE ## open a plotting window
+figure("Gulf_of_Lions_extended", do.save=do.save, width=5, height=5,type="pdf")
+plotmap("lion",col.bg='darkblue' ,grid=FALSE)
+close_fig(do.save)
+```
+
+
+<style> div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;} </style>
+<div class = "blue">
+**Recommendation:**
+Note that you can, unlike with the basic map-package, resize figures generated by plotmap
+(and v)-function calls. (In fact, only the font and border width size will change when
+resizing figures.)
+
+Use dev.size() to find the most appropriate dimensions for your plot and check out figure()
+to switch between the plotting window and diverse figure file formats: jpeg, png, eps or pdf.
+Formats are selected according to the type statement (e.g. type=jpeg).
+
+**ATTENTION** To save plots with figure(), the device needs to be closed by a separate
+function(dev.off() or close_fig(/TRUE)) </div>
+
+
+## Example 3: resize figure manually and get new figure dimensions:
+```{r resize figure, eval=FALSE, message=FALSE, error=FALSE, warning=FALSE}
+width <- dev.size() [1]
+height <- dev.size() [2]
+
+do.save <- TRUE ## do NOT open a plotting window, but save figure internally
+
+figure("Gulf_of_Lions_extended", do.save=do.save, 
+       width=width, height=height, type="pdf")
+plotmap("lion",col.bg='darkblue' ,grid=FALSE)
+close_fig(do.save)
+```
+
+# Drawing maps from West to East or East to West:
+
+Particularly tricky but not that uncommon is the case of drawing maps that cover the
+region between the “Western” or "Eastern" hemispheres (i.e. that run from 180°W to
+180°E or 180°E to 180°W). Whether plotmap draws a map from the Western to the Eastern
+or Eastern to Western hemisphere depends on the order and magnitude of the defined
+longitude values. In general, xlim and Jon-values < 0 or > 180 are always treated as Western
+longitudes. Accordingly, maps are drawn from East fo West if xlim[1] > xlim[2] and from
+West to East if xlim[2] > xlim[1]. Here an easy example:
+
+## Example 4: between hemispheres
+```{r between hemispheres, layout="l-body-outset", layout="l-body-outset",fig.width = 10, fig.height = 10}
+par(mfrow=c(2,1))
+plotmap(lon=c(80, -120), lat=c(-50, 10), main="map from East to West")
+plotmap(lon=c(-120, 80), lat=c(-50, 10), main="map from West to East")
+```
+
+# ggplotmap and and ggplotmaply
+
+The newest version of oceanmap includes now a gglplot and plotly-version of the base-function plotmap(). You can use gglplotmap() to create land masks, which you can add to existing ggplots.
+
+```{r ggplotmap,preview=TRUE}
+ggobj <- ggplotmap("mhi")
+ggobj
+```
+
+Now let's convert this figure into an interative visualization using the ggplotmaply-function:
+(Note that the scale bars of ggplotmap() can not be inlcuded in the plotly visualizations.)
+
+```{r ggplotmaply}
+ggplotmaply(ggobj)
+```
+
+Although the remaining tutorial will focus on the base-functions of oceanmap, we will address how to use ggplotmap and ggplotmaply with rasterized data in the second oceanmap tutorial.
+
+
+# Available and new region keywords & definitions
+
+Researchers often need to analyse spatial data of a fixed study region (e.g. the Western Mediterranean Sea). To facilitate plotting of such data, oceanmap comes with a region-keyword feature. The idea of this is to link all information required to produce land mask or image plots to a short keyword (label). Apart from its keyword, each region-definition includes a long version of the label, the spatial extent of the region (longitudes and latitudes), its grid resolution, as well as the default colorbar position and default figure dimensions. Available region-definitions are stored as a data frame in the region_definitions file of the package.
+
+```{r region definitions, layout="l-body-outset", fig.width = 15, fig.height = 18,results="hide"}
+data(region_definitions)
+head (region_definitions)
+region_definitions$label
+# ?region_definitions
+# figure (width=15,height=15)
+par(mfrow=c(8,4))
+for(n in region_definitions$label) plotmap(region = n,main=n)
+```
+## How to create and delete region-definitions with add.region()
+
+The function add.region() can be used to set up new region-definitions (and -keywords),
+to store or restore a backup. ATTENTION: Backups are necessary since new region-
+definitions will be lost when updating eceanmap! In general, new regions can be supplied
+as a one-row data frame, e.g. by modifying existing region definition entries, or as
+a second option, through an interactive process. Here an example on how to modify
+existing definitions (the interactive way will be discussed on the next page):
+
+## Example 1: Add region by supplying a one-row data.frame  that holds the entire required information
+```{r, eval=FALSE}
+data(region_definitions) # load region_definitions
+lion <- region_definitions[region_definitions$label == 'lion',] # selecting Gulf of Lions region
+```
+
+## Example 2: Delete region
+```{r, eval=FALSE}
+delete.region("junk") # delete junk region
+data(region_definitions) # reload region_definitions
+region_definitions[,1:9]
+```
+
+## Example 3: Create new region-definitions with add.region() - the interactive way
+
+Calling add.region() without or insufficient arguments starts an interactive session that
+prompts the user to complete the new region definition. The single steps of this way
+listed below:
+
+```{r new region label, eval=FALSE, message=FALSE, error=FALSE, warning=FALSE}
+Please define the keyword of the new region, coded as 'label':
+Please define the long name of the new region, coded as 'name':
+
+Please define the northern most latitude
+(negative values for the southern hemisphere) of the new region, coded as 'latn':
+
+Please define the southern most latitude
+(negative values for the southern hemisphere) of the new region, coded as 'lats':
+
+Please define the western most longitude of the new region
+(negative values for the western hemisphere), coded as 'lonw':
+
+Please define the western most longitude of the new region
+(negative values for the western hemisphere), coded as 'lone':
+
+Please type 'm' if you want to perform colorbar placement by hand (mouse cursor)
+or a letter (b, 1, t, r) referring to a side of the plot (bottom, left, top, right).
+
+If 'm' (manual placement) was selected:
+Please select the lower left colorbar-position by the mouse cursor.
+
+Please select the upper right colorbar-position by the mouse cursor.
+
+You can resize the window to appropriate size. Try to avoid white space.
+Press <Enter> when done.
+
+Please enter the default grid resolution
+
+Press <Enter> to save the new region definition
+or any other key to abort the operation
+```

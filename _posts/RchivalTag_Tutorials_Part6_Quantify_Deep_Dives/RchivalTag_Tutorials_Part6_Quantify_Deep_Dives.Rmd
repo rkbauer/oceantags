@@ -1,0 +1,132 @@
+---
+title: "RchivalTag Tutorial | Part 6 - Quantifying Deep Dives"
+description: |
+  In this tutorial we will learn how to quantify deep dives from depth temperature time series data.
+author:
+  - name: Robert K. Bauer
+    url: http://www2.hawaii.edu/~rkbauer
+    affiliation: Hawai'i Institute of Marine Biology <br> University of Hawai'i at Mānoa
+    affiliation_url: https://scholar.google.com/citations?hl=en&user=J-0_tdbR2tgC
+    orcid_id: 0000-0003-4224-8023
+date: 03-22-2021
+output:
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    self_contained: false
+# (additional metadata e.g. description and date, excluded for brevity)
+categories:
+  - RchivalTag
+  - time-series
+  - deep-dives
+creative_commons: CC BY
+---
+
+# Getting started | Requirements
+
+To run this tutorial we will need RchivalTag version >= 0.1.5 and oceanmap version >= 0.13. You can find the newest versions of both packages on [github](https://github.com/rkbauer/)
+
+```{r}
+## install or load package
+# install.packages("RchivalTag") # from CRAN
+# library(xfun)
+# install_github("rkbauer/oceanmap") # newest version from github
+# install_github("rkbauer/RchivalTag") # newest version from github
+library("RchivalTag")
+
+## Package overview and version:
+?RchivalTag 
+help(package="RchivalTag") ## list of functions
+```
+
+```{r}
+ts_file <- system.file("example_files/104659-Series.csv",package="RchivalTag")
+ts_df <- read_TS(ts_file)
+ts_df$Lon <- 5; ts_df$Lat <- 43
+dy_DepthTS(ts_df)
+```
+
+
+
+
+```{r}
+depth_lim <- 100
+ts_list <- list(ts_df)
+sm <- c()
+idive <- 1
+for(n in 1:length(ts_list)){
+  dat <- classify_DayTime(ts_list[[n]])
+  dat$idive <- NA
+  # sm <- dat %>% summarise(nperc=100-round(100*length(which(is.na(Depth)))/n(),1))
+  # if(sm$nperc >= 99) stop()
+  # dat$ii <- 1:nrow(dat)
+  ii <- which(dat$Depth[2:nrow(dat)] > depth_lim & dat$Depth[1:(nrow(dat)-1)] < depth_lim)+1
+  for(i in ii){
+    j <- which(dat$Depth[i:nrow(dat)] < depth_lim)[1]-1
+    if(all(!is.na(dat$Depth[i:(i+j)]))){ # do not include gaps
+      add <- data.frame(idive=idive,
+                        DeployID=dat$DeployID[1],
+                        tstep=diff(as.numeric(dat$datetime[1:2])),
+                        dive_duration=as.numeric(dat$datetime[i+j])-as.numeric(dat$datetime[i]),
+                        tstart=dat$datetime[i],
+                        tend=dat$datetime[i+j],
+                        sunrise=dat$sunrise[i],
+                        sunset=dat$sunset[i],
+                        dawn=dat$dawn.ast[i],
+                        dusk=dat$dusk.ast[i],
+                        daytime=dat$daytime.long[i],
+                        maxDepth=max(dat$Depth[i:(i+j)]))
+      sm <- rbind(sm,add)
+      dat$idive[(i-1):(i+j)] <- idive
+      idive <- idive + 1
+    }
+  }
+}
+sm$tstart_hour <- RchivalTag:::.datetime2hour(sm$tstart)
+par(xaxs="i",yaxs="i",las=1)
+h <- hist(sm$tstart_hour,col="grey",breaks = 0:24,
+          xlab="Hour (UTC)",main="",ylab=paste0("Deep Dives > ",depth_lim," m (n)"),axes=F)
+axis(2)
+axis(1,at=h$mids,labels = h$breaks[1:length(h$mids)])
+box()
+```
+
+
+```{r}
+library(DT)
+library(dplyr)
+sm %>% mutate(tstart=as.character(tstart),tend=as.character(tend),
+              sunrise=as.character(sunrise),sunset=as.character(sunset),
+              dawn=as.character(dawn),dusk=as.character(dusk)) %>% 
+    datatable() %>%
+    DT::formatStyle(columns = 1:13, fontSize = '70%')
+```
+The following code will illustrate the raw dive profiles. This can be interesting in case there are reoccuring patterns (i.e. of dive depth, duration and timing).
+
+```{r}
+library(dplyr)
+library(ggplot2)
+input <- dat %>% 
+  filter(!is.na(idive)) %>%
+  mutate(Time = RchivalTag:::.datetime2hour.dc(datetime),
+         dawn=mean(RchivalTag:::.datetime2hour.dc(dawn.ast)),
+         dusk=mean(RchivalTag:::.datetime2hour.dc(dusk.ast)),
+         sunrise=mean(RchivalTag:::.datetime2hour.dc(sunrise)),
+         sunset=mean(RchivalTag:::.datetime2hour.dc(sunset)))
+ylim <- c(500,0)
+
+input %>%
+  ggplot() + 
+  annotate("rect", xmin=-Inf,xmax=Inf,ymin=ylim[1],ymax=ylim[2],fill="grey") +
+  annotate("rect", xmin=input$dawn,xmax=input$sunrise,ymin=ylim[1],ymax=ylim[2],fill="grey90") +
+  annotate("rect", xmin=input$sunset,xmax=input$dusk,ymin=ylim[1],ymax=ylim[2],fill="grey90") +
+  annotate("rect", xmin=input$sunrise,xmax=input$sunset,ymin=ylim[1],ymax=ylim[2],fill="white") +
+  geom_line(aes(x=Time,y=Depth,group=idive)) + coord_cartesian(xlim = c(0,24), ylim = ylim) + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), 
+        axis.ticks.length = unit(1,"cm")) + 
+  geom_hline(yintercept=100, linetype="dashed") +
+  theme_minimal()
+```
+
+

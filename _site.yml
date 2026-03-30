@@ -1,0 +1,41 @@
+name: "rkbauer"
+title: "Marine Biologging & Data Science | Blog"
+theme: theme.css
+description: |
+  Robert K. Bauer
+output_dir: "docs"
+navbar:
+  logo:
+    image: logo.png
+    href: /
+  search: false
+  right:
+    - icon: fa-home
+      href: index.html
+    - text: "About"
+      href: about.html
+    - text: "HIMB"
+      href: http://www.himb.hawaii.edu/
+    - text: "SharkLab"
+      href: https://himbsharklab.com/
+    - icon: fab fa-github
+      href: https://github.com/rkbauer/
+    - icon: fab fa-researchgate
+      href: https://www.researchgate.net/profile/Robert-Bauer-13/research
+    - icon: fa fa-rss
+      href: index.xml
+output: 
+  distill::distill_article:
+    includes:
+      in_header: header.html
+      before_body: body.html
+base_url: https://rkbauer.github.io/oceantags/
+google_analytics: "G-P3EPPVKTY8"
+collections:
+  posts:
+    categories: true
+    categories_metadata: true
+    authors_metadata: true
+    disqus: marine-biologging
+    share: [twitter, linkedin, facebook, whatsapp]
+    subscribe: _subscribe.html

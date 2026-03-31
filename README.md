@@ -90,7 +90,7 @@ The content is tightly linked to the R packages:
 
 ## Credits
 
-The tutorials and underlying tools were developed during my time as Research affiliate at the [Hawai'i Institute of Marine Biology](http://www.himb.hawaii.edu/).
+I started this tutorial series with a focus on my R Packages RchivalTag and oceanmap during my time as Research affiliate at the [Hawai'i Institute of Marine Biology](http://www.himb.hawaii.edu/). This blog builds on these developments by providing modern workflows and interactive visualizations in R.
 
 ---
 

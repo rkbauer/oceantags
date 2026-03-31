@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logo.svg" alt="oceantags logo" width="300">
+  <img src="img/oceantags_logo.svg" alt="oceantags logo" width="300">
 </p>
 
 <h4 align="center">Marine Data Science Tutorials in R</h4>
@@ -20,7 +20,7 @@
 
 ---
 
-![Screenshot](example.jpg)
+![Screenshot](img/example.jpg)
 
 ---
 

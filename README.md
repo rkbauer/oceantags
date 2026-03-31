@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="img/oceantags_logo.svg" alt="oceantags logo" width="300">
+  <a href="https://rkbauer.github.io/oceantags/">
+    <img src="img/oceantags_logo.svg" alt="oceantags logo" width="300">
+  </a>
 </p>
 
 <h4 align="center">Marine Data Science Tutorials in R</h4>
@@ -20,8 +22,7 @@
 
 ---
 
-![Screenshot](img/example.jpg)
-
+[![Screenshot](img/example.jpg)](https://rkbauer.github.io/oceantags/)
 ---
 
 ## Author

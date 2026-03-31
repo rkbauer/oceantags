@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./img/oceantags_logo.svg" alt="oceantags logo" width="300">
+  <img src="logo.svg" alt="oceantags logo" width="300">
 </p>
 
 <h4 align="center">Marine Data Science Tutorials in R</h4>
@@ -15,12 +15,12 @@
 
 ---
 
-**Visit the full blog here:**
-https://rkbauer.github.io/oceantags/
+**Visit the full blog here:**  
+👉 https://rkbauer.github.io/oceantags/
 
 ---
 
-![Screenshot](./img/example.jpg)
+![Screenshot](example.jpg)
 
 ---
 
@@ -51,48 +51,29 @@ The content is tightly linked to the R packages:
 
 ## Tutorials
 
-### Acoustic Telemetry
-
-- **Interactive Raw Detections Abacus Plots**  
-  → https://rkbauer.github.io/oceantags/acoustic_telemetry_Tutorial_Interactive_raw_detections_abacus_plots/
-
----
-
 ### oceanmap Tutorials
 
-- **Part 1: Landmasks**  
-  → https://rkbauer.github.io/oceantags/oceanmap_Tutorial_Part1_Landmasks/
-
-- **Part 2: Oceanographic Data**  
-  → https://rkbauer.github.io/oceantags/oceanmap_Tutorial_Part2_Oceanographic_Data/
+- **[`Part 1: Landmasks`](https://rkbauer.github.io/oceantags/posts/oceanmap_Tutorial_Part1_Landmasks/)**
+- **[`Part 2: Oceanographic Data`](https://rkbauer.github.io/oceantags/posts/oceanmap_Tutorial_Part2_Oceanographic_Data/)**
 
 ---
 
 ### RchivalTag Tutorials
 
-- **Part 1: Histograms**  
-  → https://rkbauer.github.io/oceantags/RchivalTag_Tutorials_Part1_Histograms/
+- **[`Part 1: Histograms`](https://rkbauer.github.io/oceantags/posts/RchivalTag_Tutorials_Part1_Histograms/)**
+- **[`Part 2: Time Series Data`](https://rkbauer.github.io/oceantags/posts/RchivalTag_Tutorials_Part2_Time_Series_Data/)**
+- **[`Part 3: PDT Data`](https://rkbauer.github.io/oceantags/posts/RchivalTag_Tutorials_Part3_PDT_Data/)**
+- **[`Part 4: Geolocations`](https://rkbauer.github.io/oceantags/posts/RchivalTag_Tutorials_Part4_Geolocations/)**
+- **[`Part 5: Visualizing Data in Local Time`](https://rkbauer.github.io/oceantags/posts/RchivalTag_Tutorials_Part5_Visualizing_Data_in_Local_Time/)**
+- **[`Part 6: Quantifying Deep Dives`](https://rkbauer.github.io/oceantags/posts/RchivalTag_Tutorials_Part6_Quantify_Deep_Dives/)**
+- **[`Part 7: Simulating Depth Time Series`](https://rkbauer.github.io/oceantags/posts/RchivalTag_Tutorials_Part7_Simulate_DepthTS/)**
+- **[`Part 8: Spatial Analyses`](https://rkbauer.github.io/oceantags/posts/RchivalTag_Tutorials_Part8_Spatial_Analayses/)**
 
-- **Part 2: Time Series Data**  
-  → https://rkbauer.github.io/oceantags/RchivalTag_Tutorials_Part2_Time_Series_Data/
+---
 
-- **Part 3: PDT Data**  
-  → https://rkbauer.github.io/oceantags/RchivalTag_Tutorials_Part3_PDT_Data/
+### Acoustic Telemetry
 
-- **Part 4: Geolocations**  
-  → https://rkbauer.github.io/oceantags/RchivalTag_Tutorials_Part4_Geolocations/
-
-- **Part 5: Visualizing Data in Local Time**  
-  → https://rkbauer.github.io/oceantags/RchivalTag_Tutorials_Part5_Visualizing_Data_in_Local_Time/
-
-- **Part 6: Quantifying Deep Dives**  
-  → https://rkbauer.github.io/oceantags/RchivalTag_Tutorials_Part6_Quantify_Deep_Dives/
-
-- **Part 7: Simulating Depth Time Series**  
-  → https://rkbauer.github.io/oceantags/RchivalTag_Tutorials_Part7_Simulate_DepthTS/
-
-- **Part 8: Spatial Analyses**  
-  → https://rkbauer.github.io/oceantags/RchivalTag_Tutorials_Part8_Spatial_Analayses/
+- **[`Interactive Raw Detections Abacus Plots`](https://rkbauer.github.io/oceantags/posts/Interactive_raw_detections_abacus_plots/)**
 
 ---
 
@@ -108,13 +89,7 @@ The content is tightly linked to the R packages:
 
 ## Credits
 
-The tutorials and underlying tools were developed during:
-
-- PhD at IFREMER  
-- Postdoctoral research at IRD  
-- Both part of the MARBEC laboratory  
-
-The blog extends these developments with modern workflows and interactive visualizations in R.
+The tutorials and underlying tools were developed during my time as Research affiliate at the [Hawai'i Institute of Marine Biology](http://www.himb.hawaii.edu/).
 
 ---
 

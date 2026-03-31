@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>Marine Biologging &amp; Data Science | Blog</title>
+    <link>http://oceantags.com/</link>
+    <atom:link href="http://oceantags.com/index.xml" rel="self" type="application/rss+xml"/>
+    <description>Robert K. Bauer
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Tue, 01 Jun 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>RchivalTag Tutorial | Part 8 - Spatial Analyses</title>
+      <dc:creator>Robert K. Bauer</dc:creator>
+      <link>http://oceantags.com/posts/RchivalTag_Tutorials_Part8_Spatial_Analayses</link>
+      <description>In this tutorial we will learn how to run some basic spatial analyses based on maximum likelihood tracks, probability surfaces and simulated fishing effort data (kernel densities).</description>
+      <category>RchivalTag</category>
+      <category>kernel</category>
+      <category>raster</category>
+      <category>polygons</category>
+      <category>tracks</category>
+      <category>simulate</category>
+      <category>ggplot</category>
+      <category>fishing-effort</category>
+      <guid>http://oceantags.com/posts/RchivalTag_Tutorials_Part8_Spatial_Analayses</guid>
+      <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
+      <media:content url="http://oceantags.com/posts/RchivalTag_Tutorials_Part8_Spatial_Analayses/RchivalTag_Tutorials_Part8_Spatial_Analayses_files/figure-html5/unnamed-chunk-5-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Interactive Acoustic/Radiotelemtry Data Abacus Plots</title>
+      <dc:creator>Robert K. Bauer</dc:creator>
+      <link>http://oceantags.com/posts/Interactive_raw_detections_abacus_plots</link>
+      <description>This tutorial illustrates how to create an abacus plot from raw acoustic detections from and array of several Vemco VR2W acoustic receivers.</description>
+      <category>RchivalTag</category>
+      <category>dygraphs</category>
+      <category>time-series</category>
+      <category>vemco</category>
+      <category>acoustic-data</category>
+      <category>daytime-shading</category>
+      <guid>http://oceantags.com/posts/Interactive_raw_detections_abacus_plots</guid>
+      <pubDate>Wed, 19 May 2021 00:00:00 +0000</pubDate>
+      <media:content url="http://oceantags.com/posts/Interactive_raw_detections_abacus_plots/preview_dygraphs_abacus_plot.png" medium="image" type="image/png"/>
+    </item>
+    <item>
+      <title>RchivalTag Tutorial | Part 7 - Simulate Depth Time Series Data</title>
+      <dc:creator>Robert K. Bauer</dc:creator>
+      <link>http://oceantags.com/posts/RchivalTag_Tutorials_Part7_Simulate_DepthTS</link>
+      <description>In this tutorial we will learn how to simulate depth time series data from a template data set.</description>
+      <category>RchivalTag</category>
+      <category>time-series</category>
+      <category>DepthTS</category>
+      <category>simulate</category>
+      <category>dygraphs</category>
+      <guid>http://oceantags.com/posts/RchivalTag_Tutorials_Part7_Simulate_DepthTS</guid>
+      <pubDate>Wed, 28 Apr 2021 00:00:00 +0000</pubDate>
+      <media:content url="http://oceantags.com/posts/RchivalTag_Tutorials_Part7_Simulate_DepthTS/RchivalTag_Tutorials_Part7_Simulate_DepthTS_files/figure-html5/unnamed-chunk-5-1.png" medium="image" type="image/png" width="2400" height="768"/>
+    </item>
+    <item>
+      <title>RchivalTag Tutorial | Part 6 - Quantifying Deep Dives</title>
+      <dc:creator>Robert K. Bauer</dc:creator>
+      <link>http://oceantags.com/posts/RchivalTag_Tutorials_Part6_Quantify_Deep_Dives</link>
+      <description>In this tutorial we will learn how to quantify deep dives from depth temperature time series data.</description>
+      <category>RchivalTag</category>
+      <category>time-series</category>
+      <category>deep-dives</category>
+      <guid>http://oceantags.com/posts/RchivalTag_Tutorials_Part6_Quantify_Deep_Dives</guid>
+      <pubDate>Mon, 22 Mar 2021 00:00:00 +0000</pubDate>
+      <media:content url="http://oceantags.com/posts/RchivalTag_Tutorials_Part6_Quantify_Deep_Dives/RchivalTag_Tutorials_Part6_Quantify_Deep_Dives_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>RchivalTag Tutorial | Part 5 - Visualizing data in local time/other time zones</title>
+      <dc:creator>Robert K. Bauer</dc:creator>
+      <link>http://oceantags.com/posts/RchivalTag_Tutorials_Part5_Visualizing_Data_in_Local_Time</link>
+      <description>In part 2 of the RchivalTag tutorial series, we learned already different ways to visualize depth time series data. In this tutorial, we will address how to illustrate the data in local time (other time zones).</description>
+      <category>RchivalTag</category>
+      <category>local-time</category>
+      <category>timezone</category>
+      <category>UTC</category>
+      <category>time-series</category>
+      <category>dygraphs</category>
+      <guid>http://oceantags.com/posts/RchivalTag_Tutorials_Part5_Visualizing_Data_in_Local_Time</guid>
+      <pubDate>Thu, 18 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="http://oceantags.com/posts/RchivalTag_Tutorials_Part5_Visualizing_Data_in_Local_Time/RchivalTag_Tutorials_Part5_Visualizing_Data_in_Local_Time_files/figure-html5/unnamed-chunk-3-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>RchivalTag Tutorial | Part 4 - Geolocation Estimates and Likelihood Areas</title>
+      <dc:creator>Robert K. Bauer</dc:creator>
+      <link>http://oceantags.com/posts/RchivalTag_Tutorials_Part4_Geolocations</link>
+      <description>In this fourth part of the RchivalTag tutorial series, we will learn how to explore geolocation estimates and related likelihood areas from pop-up archival tags.</description>
+      <category>RchivalTag</category>
+      <category>ggplot</category>
+      <category>plotly</category>
+      <category>leaflet</category>
+      <category>oceanmap</category>
+      <category>daytime-shading</category>
+      <guid>http://oceantags.com/posts/RchivalTag_Tutorials_Part4_Geolocations</guid>
+      <pubDate>Sun, 10 Jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="http://oceantags.com/posts/RchivalTag_Tutorials_Part4_Geolocations/preview_leaflet_geopos_RchivalTag.jpeg" medium="image" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>RchivalTag Tutorial | Part 3 - Daily Depth-Temperature profiles</title>
+      <dc:creator>Robert K. Bauer</dc:creator>
+      <link>http://oceantags.com/posts/RchivalTag_Tutorials_Part3_PDT_Data</link>
+      <description>In this third part of the RchivalTag tutorial series, we will learn how to explore PAT-Style depth temperature profiles, a special data product of (pop-up) archival tags from Wildlife Computers to analyze the thermal structure of the water column that requires far less ARGOS transmissions than temperature time series data.</description>
+      <category>PDT</category>
+      <category>depth-temperature</category>
+      <category>histograms</category>
+      <guid>http://oceantags.com/posts/RchivalTag_Tutorials_Part3_PDT_Data</guid>
+      <pubDate>Tue, 15 Dec 2020 00:00:00 +0000</pubDate>
+      <media:content url="http://oceantags.com/posts/RchivalTag_Tutorials_Part3_PDT_Data/RchivalTag_Tutorials_Part3_PDT_Data_files/figure-html5/unnamed-chunk-12-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>RchivalTag Tutorial | Part 2 (Interactive) Time Series Data Plots</title>
+      <dc:creator>Robert K. Bauer</dc:creator>
+      <link>http://oceantags.com/posts/RchivalTag_Tutorials_Part2_Time_Series_Data</link>
+      <description>In this second part of the RchivalTag tutorial series, we will learn how to read, analyze and visualize depth and temperature time series data.</description>
+      <category>RchivalTag</category>
+      <category>ggplot</category>
+      <category>dygraphs</category>
+      <category>time-series</category>
+      <category>daytime-shading</category>
+      <guid>http://oceantags.com/posts/RchivalTag_Tutorials_Part2_Time_Series_Data</guid>
+      <pubDate>Fri, 20 Nov 2020 00:00:00 +0000</pubDate>
+      <media:content url="http://oceantags.com/posts/RchivalTag_Tutorials_Part2_Time_Series_Data/RchivalTag_Tutorials_Part2_Time_Series_Data_files/figure-html5/unnamed-chunk-27-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>RchivalTag Tutorial | Part 1 - Time-at-Depth &amp; Time-at-Temperature Histograms</title>
+      <dc:creator>Robert K. Bauer</dc:creator>
+      <link>http://oceantags.com/posts/RchivalTag_Tutorials_Part1_Histograms</link>
+      <description>In this first part of the RchivalTag tutorial series, we will learn how to read, merge, analyze and visualize Time-at-Depth &amp; Time-at-Temperature frequency data.</description>
+      <category>RchivalTag</category>
+      <category>histograms</category>
+      <category>summary-data</category>
+      <category>time-series</category>
+      <guid>http://oceantags.com/posts/RchivalTag_Tutorials_Part1_Histograms</guid>
+      <pubDate>Sat, 24 Oct 2020 00:00:00 +0000</pubDate>
+      <media:content url="http://oceantags.com/posts/RchivalTag_Tutorials_Part1_Histograms/RchivalTag_Tutorials_Part1_Histograms_files/figure-html5/unnamed-chunk-12-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>oceanmap Tutorial | Part 2 - Visualizing and Analyzing Spatial Oceanographic Data</title>
+      <dc:creator>Robert K. Bauer</dc:creator>
+      <link>http://oceantags.com/posts/oceanmap_Tutorial_Part2_Oceanographic_Data</link>
+      <description>In this second oceanmap tutorial we will learn how to map and analyze spatial oceanographic (remote sensing) data.</description>
+      <category>oceanmap</category>
+      <category>ggplot</category>
+      <category>netcdf</category>
+      <category>raster</category>
+      <category>bathymetry</category>
+      <guid>http://oceantags.com/posts/oceanmap_Tutorial_Part2_Oceanographic_Data</guid>
+      <pubDate>Thu, 17 Sep 2020 00:00:00 +0000</pubDate>
+      <media:content url="http://oceantags.com/posts/oceanmap_Tutorial_Part2_Oceanographic_Data/oceanmap_Tutorial_Part2_Oceanographic_Data_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>oceanmap Tutorial | Part 1 - Plotting landmasks</title>
+      <dc:creator>Robert K. Bauer</dc:creator>
+      <link>http://oceantags.com/posts/oceanmap_Tutorial_Part1_Landmasks</link>
+      <description>In this first oceanmap tutorial we will learn different ways to plot or add landmasks to existing figures.</description>
+      <category>oceanmap</category>
+      <category>ggplot</category>
+      <category>plotly</category>
+      <category>raster</category>
+      <guid>http://oceantags.com/posts/oceanmap_Tutorial_Part1_Landmasks</guid>
+      <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
+      <media:content url="http://oceantags.com/posts/oceanmap_Tutorial_Part1_Landmasks/oceanmap_Tutorial_Part1_Landmasks_files/figure-html5/ggplotmap-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+  </channel>
+</rss>

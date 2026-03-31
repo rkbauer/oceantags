@@ -15,6 +15,14 @@ output:
   postcards::trestles
 ---
 
-I am a marine fishery biologist and data scientist working as Data Scientist and Research affiliate at the [Hawai'i Institute of Marine Biology](http://www.himb.hawaii.edu/). My research focuses on environmental and human impacts (i.e. fisheries) on the migratory behavior and population dynamics of (pelagic) fish and marine mammals. I am particularly interested in biologging studies (i.e. with data storage, pop-up archival or acoustic tags). In this context, I developed three R packages on mapping and analyzing spatial oceanographic data ([oceanmap](https://github.com/rkbauer/R_Package_oceanmap)), analyzing and visualizing conventional ([IRATER](https://github.com/rkbauer/R_Package_IRATER)) and archival tagging data ([RchivalTag](https://github.com/rkbauer/R_Package_RchivalTag)). 
-During the course of my studies, I always seeked the opportunity to explore different places. I have been fortunate to study, work and present my research at various institutions and in different countries. Currently, I am working as data scientist, a fast-developing multidisciplinary field in the big data sector which is receiving more and more attention in marine research. The goal of this blog is to introduce data science methods and the analysis of oceanographic and marine biologging data. The blog is intended at beginners and advanced R-users alike.
+I am a marine fishery biologist and data scientist, working as Data Scientist and Research Affiliate at the <a href="http://www.himb.hawaii.edu/">Hawai'i Institute of Marine Biology</a>. My research focuses on environmental and human impacts (e.g., fisheries) on the migratory behavior and population dynamics of pelagic fish and marine mammals. I am particularly interested in biologging studies, including data storage, pop-up archival, and acoustic tags.
+
+In this context, I have developed three R packages for mapping and analyzing spatial oceanographic and tagging data:  
+- <a href="https://github.com/rkbauer/R_Package_oceanmap"><strong>oceanmap</strong></a> – mapping and analyzing spatial oceanographic data  
+- <a href="https://github.com/rkbauer/R_Package_IRATER"><strong>IRATER</strong></a> – analyzing and visualizing conventional tagging data  
+- <a href="https://github.com/rkbauer/R_Package_RchivalTag"><strong>RchivalTag</strong></a> – analyzing and visualizing archival tagging data
+
+Throughout my studies, I have sought opportunities to explore different environments, working, studying, and presenting my research at various institutions and countries. Currently, I focus on data science, a fast-developing multidisciplinary field in the big data sector that is gaining increasing attention in marine research.
+
+The goal of this blog is to introduce data science methods for the analysis of oceanographic and marine biologging data. It is intended for both beginners and advanced R users alike.
 
